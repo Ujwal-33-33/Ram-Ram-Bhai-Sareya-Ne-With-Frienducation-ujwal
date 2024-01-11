@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        if(k == 0){
+            int t = 0;
+            map<int,int>m;
+            for(int i = 0;i<nums.size();i++){
+                m[nums[i]]++;
+            }
+            for(auto &u : m){
+                if(u.second >1){
+                    t++;
+                }
+            }
+            return t;
+        }
+        sort(nums.begin(),nums.end());
+        vector<int>::iterator ip;
+        ip = unique(nums.begin(), nums.begin() + nums.size());
+        
+        nums.resize(distance(nums.begin(), ip));
+        int down = 0;
+        int up = 1;
+        int t = 0;
+        while(up < nums.size()){
+            int u = nums[up] - nums[down];
+            if(u == k){
+                t++;
+                up++;
+            }
+            else if(u<k){
+                up++;
+            }
+            else{
+                down++;
+                if(up == down){
+                    up++;
+                }
+            }
+        }
+        return t;
+    }
+};
